@@ -11,6 +11,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
 import com.example.weather.ui.theme.WeatherAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -25,10 +26,12 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun WeatherApp() {
+    val navController = rememberNavController()
+
     WeatherAppTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             Surface(modifier = Modifier.padding(innerPadding)) {
-
+                NavGraph(navController)
             }
         }
     }
