@@ -1,0 +1,57 @@
+package com.example.weather.ui.theme
+
+import androidx.compose.ui.graphics.Color
+
+val Periwinkle = Color(0xFFB7C4F3)
+
+internal object LightWeatherColors {
+    val Primary = Color(0xFF535F9A)
+    val OnPrimary = Color(0xFFFFFFFF)
+    val OnPrimaryContainer = Color(0xFF26315A)
+    val Secondary = Color(0xFF586288)
+    val OnSecondary = Color(0xFFFFFFFF)
+    val SecondaryContainer = Color(0xFFE6E9FC)
+    val OnSecondaryContainer = Color(0xFF303B65)
+    val Tertiary = Color(0xFF456780)
+    val OnTertiary = Color(0xFFFFFFFF)
+    val TertiaryContainer = Color(0xFFDCECF8)
+    val OnTertiaryContainer = Color(0xFF24465E)
+    val Background = Color(0xFFF5F5FD)
+    val OnSurface = Color(0xFF303B65)
+    val OnSurfaceVariant = Color(0xFF586288)
+    val Outline = Color(0xFF747E9F)
+    val OutlineVariant = Color(0xFFC5CBE2)
+    val SurfaceDim = Color(0xFFDADDEB)
+    val SurfaceBright = Color(0xFFF9F9FF)
+    val SurfaceContainerLowest = Color(0xFFFFFFFF)
+    val SurfaceContainerLow = Color(0xFFF0F1FC)
+    val SurfaceContainer = Color(0xFFE6E9FC)
+    val SurfaceContainerHigh = Color(0xFFE0E4F7)
+    val SurfaceContainerHighest = Color(0xFFDCE2F5)
+}
+
+internal object DarkWeatherColors {
+    val OnPrimary = Color(0xFF26315A)
+    val PrimaryContainer = Color(0xFF3B477C)
+    val OnPrimaryContainer = Color(0xFFE0E5FF)
+    val Secondary = Color(0xFFBFC7E9)
+    val OnSecondary = Color(0xFF293352)
+    val SecondaryContainer = Color(0xFF3D4769)
+    val OnSecondaryContainer = Color(0xFFE2E7FF)
+    val Tertiary = Color(0xFFAACDE6)
+    val OnTertiary = Color(0xFF15364B)
+    val TertiaryContainer = Color(0xFF2D4E64)
+    val OnTertiaryContainer = Color(0xFFDCECF8)
+    val Background = Color(0xFF121624)
+    val OnSurface = Color(0xFFE5E8F7)
+    val SurfaceVariant = Color(0xFF343C55)
+    val OnSurfaceVariant = Color(0xFFBEC6E0)
+    val Outline = Color(0xFF8B95B3)
+    val OutlineVariant = Color(0xFF414B66)
+    val SurfaceBright = Color(0xFF34394C)
+    val SurfaceContainerLowest = Color(0xFF0D111D)
+    val SurfaceContainerLow = Color(0xFF1A1F30)
+    val SurfaceContainer = Color(0xFF202638)
+    val SurfaceContainerHigh = Color(0xFF2A3043)
+    val SurfaceContainerHighest = Color(0xFF343A4E)
+}
