@@ -25,15 +25,18 @@ import androidx.compose.ui.unit.dp
 import com.example.weather.R
 import com.example.weather.domain.model.DayForecast
 import com.example.weather.ui.theme.WeatherAppTheme
+import org.koin.androidx.compose.koinViewModel
 import java.time.LocalDate
 
 @Composable
-fun DashboardScreenRoute() {
-    DashboardScreen()
+fun DashboardScreenRoute(viewModel: DashboardViewModel = koinViewModel()) {
+    DashboardScreen(viewModel)
 }
 
 @Composable
-fun DashboardScreen() {
+fun DashboardScreen(
+    viewModel: DashboardViewModel
+) {
     DashboardScreenContent()
 }
 
