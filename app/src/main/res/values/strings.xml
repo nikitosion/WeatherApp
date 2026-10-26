@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Weather App</string>
+    <string name="forecast_loading">Loading forecast…</string>
+    <string name="forecast_loading_description">Getting the latest weather for you</string>
+    <string name="forecast_error">Unable to load forecast</string>
+    <string name="forecast_empty">No forecast available</string>
+    <string name="forecast_empty_description">Refresh to check for a new forecast</string>
+    <string name="forecast_retry">Reload forecast</string>
 </resources>

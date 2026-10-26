@@ -1,25 +1,25 @@
 package com.example.weather.ui.dasboard
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.weather.R
@@ -30,23 +30,37 @@ import java.time.LocalDate
 
 @Composable
 fun DashboardScreenRoute(viewModel: DashboardViewModel = koinViewModel()) {
-    DashboardScreen(viewModel)
+    val uiState = viewModel.uiState.collectAsState().value
+    DashboardScreen(
+        uiState = uiState,
+        onRetry = { viewModel.loadForecast(55.7512, 37.6184) }
+    )
 }
 
 @Composable
 fun DashboardScreen(
-    viewModel: DashboardViewModel
+    uiState: DashboardUiState,
+    onRetry: () -> Unit
 ) {
-    DashboardScreenContent()
+    DashboardScreenContent(
+        isLoading = uiState.isLoading,
+        weekForecast = uiState.weekForecast,
+        errorMessage = uiState.errorMessage,
+        onRetry = onRetry
+    )
 }
 
 @Composable
 fun DashboardScreenContent(
-    weekForecast: List<DayForecast>? = null
+    isLoading: Boolean = false,
+    weekForecast: List<DayForecast>? = null,
+    errorMessage: String? = null,
+    onRetry: () -> Unit = {}
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
             .padding(horizontal = 16.dp, vertical = 24.dp)
     ) {
         Row(
@@ -74,36 +88,25 @@ fun DashboardScreenContent(
             }
         }
 
-        if (weekForecast.isNullOrEmpty()) {
-            Column(
-                modifier = Modifier
-                    .padding(vertical = 8.dp)
-                    .background(
-                        color = MaterialTheme.colorScheme.surfaceVariant,
-                        shape = RoundedCornerShape(24.dp)
-                    )
-                    .fillMaxWidth()
-                    .padding(20.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                OutlinedIconButton(
-                    onClick = {}
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.refresh_24),
-                        contentDescription = "Refresh Icon"
-                    )
-                }
-
-                Text(
-                    modifier = Modifier
-                        .padding(vertical = 8.dp),
-                    textAlign = TextAlign.Center,
-                    text = "No forecast available",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
+        if (isLoading) {
+            ForecastStatusCard(
+                title = stringResource(R.string.forecast_loading),
+                message = stringResource(R.string.forecast_loading_description),
+                isLoading = true,
+                onRetry = onRetry
+            )
+        } else if (errorMessage != null) {
+            ForecastStatusCard(
+                title = stringResource(R.string.forecast_error),
+                message = errorMessage,
+                onRetry = onRetry
+            )
+        } else if (weekForecast.isNullOrEmpty()) {
+            ForecastStatusCard(
+                title = stringResource(R.string.forecast_empty),
+                message = stringResource(R.string.forecast_empty_description),
+                onRetry = onRetry
+            )
         } else {
             val todayForecast = weekForecast.first()
 
@@ -122,8 +125,8 @@ fun DashboardScreenContent(
 
             Column(
                 modifier = Modifier
-                    .padding(vertical = 12.dp)
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
+                    .padding(vertical = 12.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 for (dayForecast in weekForecast) {
@@ -191,6 +194,27 @@ fun NullDashboardScreenPreview() {
     WeatherAppTheme {
         DashboardScreenContent(
             weekForecast = null
+        )
+    }
+}
+
+@Composable
+@Preview(showBackground = true)
+fun LoadingDashboardScreenPreview() {
+    WeatherAppTheme {
+        DashboardScreenContent(
+            isLoading = true
+        )
+    }
+}
+
+@Composable
+@Preview(showBackground = true)
+fun ErrorDashboardScreenPreview() {
+    WeatherAppTheme {
+        DashboardScreenContent(
+            isLoading = false,
+            errorMessage = "Failed to load forecast"
         )
     }
 }
