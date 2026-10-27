@@ -16,16 +16,16 @@ class DashboardViewModel(
     val uiState = _uiState.asStateFlow()
 
     init {
-        loadForecast(55.7512, 37.6184)
+        loadForecastForWeek(55.7512, 37.6184)
     }
 
-    fun loadForecast(latitude: Double, longitude: Double) {
+    fun loadForecastForWeek(latitude: Double, longitude: Double) {
         if (_uiState.value.isLoading) return
 
         _uiState.update { it.copy(isLoading = true, errorMessage = null) }
         viewModelScope.launch {
             try {
-                val forecast = weatherRepository.getForecast(latitude, longitude)
+                val forecast = weatherRepository.getForecastForWeek(latitude, longitude)
                 _uiState.update {
                     it.copy(weekForecast = forecast, errorMessage = null)
                 }

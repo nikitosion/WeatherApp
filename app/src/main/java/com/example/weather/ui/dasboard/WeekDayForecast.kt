@@ -1,6 +1,7 @@
 package com.example.weather.ui.dasboard
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -25,7 +26,8 @@ import java.time.LocalDate
 @Composable
 fun WeekDayForecast(
     modifier: Modifier = Modifier,
-    dayForecast: DayForecast
+    dayForecast: DayForecast,
+    onDayClick: () -> Unit
 ) {
     val formatter = rememberForecastFormatter()
 
@@ -36,13 +38,14 @@ fun WeekDayForecast(
                 shape = androidx.compose.foundation.shape.RoundedCornerShape(16.dp)
             )
             .fillMaxWidth()
+            .clickable { onDayClick() }
             .padding(top = 12.dp, start = 12.dp, end = 12.dp, bottom = 4.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column() {
             Text(
-                text = formatter.dateToString(dayForecast.date),
+                text = formatter.dateToTitleString(dayForecast.date),
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -55,7 +58,7 @@ fun WeekDayForecast(
         }
 
         IconButton(
-            onClick = {},
+            onClick = onDayClick,
             colors = IconButtonDefaults.iconButtonColors(
                 contentColor = MaterialTheme.colorScheme.secondary,
                 containerColor = MaterialTheme.colorScheme.onSecondary
@@ -78,7 +81,8 @@ fun WeekDayForecastPreview() {
                 date = LocalDate.now(),
                 temperature = -5.5,
                 weatherCondition = "Cloudy"
-            )
+            ),
+            onDayClick = {}
         )
     }
 }

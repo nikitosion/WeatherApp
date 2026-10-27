@@ -5,18 +5,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalConfiguration
 import java.time.LocalDate
+import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 class ForecastFormatter(
     locale: Locale
 ) {
+    private val timeFormatter = DateTimeFormatter.ofPattern("HH:mm", locale)
+
+    fun timeToString(time: LocalTime): String = time.format(timeFormatter)
+
     private val dateFormatter = DateTimeFormatter.ofPattern(
         DateFormat.getBestDateTimePattern(locale, "EEEEdMMMM"),
         locale
     )
 
-    fun dateToString(date: LocalDate): String {
+    fun dateToTitleString(date: LocalDate): String {
         return date.format(dateFormatter).uppercase()
     }
 

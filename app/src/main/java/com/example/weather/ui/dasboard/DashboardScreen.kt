@@ -24,29 +24,36 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.weather.R
 import com.example.weather.domain.model.DayForecast
+import com.example.weather.ui.common.BigWeatherBlock
 import com.example.weather.ui.theme.WeatherAppTheme
 import org.koin.androidx.compose.koinViewModel
 import java.time.LocalDate
 
 @Composable
-fun DashboardScreenRoute(viewModel: DashboardViewModel = koinViewModel()) {
+fun DashboardScreenRoute(
+    viewModel: DashboardViewModel = koinViewModel(),
+    onDayClick: (LocalDate) -> Unit
+) {
     val uiState = viewModel.uiState.collectAsState().value
     DashboardScreen(
         uiState = uiState,
-        onRetry = { viewModel.loadForecast(55.7512, 37.6184) }
+        onRetry = { viewModel.loadForecastForWeek(55.7512, 37.6184) },
+        onDayClick = onDayClick
     )
 }
 
 @Composable
 fun DashboardScreen(
     uiState: DashboardUiState,
-    onRetry: () -> Unit
+    onRetry: () -> Unit,
+    onDayClick: (LocalDate) -> Unit
 ) {
     DashboardScreenContent(
         isLoading = uiState.isLoading,
         weekForecast = uiState.weekForecast,
         errorMessage = uiState.errorMessage,
-        onRetry = onRetry
+        onRetry = onRetry,
+        onDayClick = onDayClick
     )
 }
 
@@ -55,7 +62,8 @@ fun DashboardScreenContent(
     isLoading: Boolean = false,
     weekForecast: List<DayForecast>? = null,
     errorMessage: String? = null,
-    onRetry: () -> Unit = {}
+    onRetry: () -> Unit = {},
+    onDayClick: (LocalDate) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -110,9 +118,10 @@ fun DashboardScreenContent(
         } else {
             val todayForecast = weekForecast.first()
 
-            TodayWeatherBlock(
+            BigWeatherBlock(
                 modifier = Modifier.padding(vertical = 16.dp),
-                todayForecast = todayForecast
+                dayForecast = todayForecast,
+                onDayClick = { onDayClick(todayForecast.date) }
             )
 
             Text(
@@ -132,7 +141,8 @@ fun DashboardScreenContent(
                 for (dayForecast in weekForecast) {
                     WeekDayForecast(
                         modifier = Modifier,
-                        dayForecast = dayForecast
+                        dayForecast = dayForecast,
+                        onDayClick = { onDayClick(dayForecast.date) }
                     )
                 }
             }
@@ -183,7 +193,8 @@ fun DashboardScreenPreview() {
 
     WeatherAppTheme {
         DashboardScreenContent(
-            weekForecast = weekForecast
+            weekForecast = weekForecast,
+            onDayClick = {}
         )
     }
 }
@@ -193,6 +204,7 @@ fun DashboardScreenPreview() {
 fun NullDashboardScreenPreview() {
     WeatherAppTheme {
         DashboardScreenContent(
+            onDayClick = {},
             weekForecast = null
         )
     }
@@ -203,6 +215,7 @@ fun NullDashboardScreenPreview() {
 fun LoadingDashboardScreenPreview() {
     WeatherAppTheme {
         DashboardScreenContent(
+            onDayClick = {},
             isLoading = true
         )
     }
@@ -213,6 +226,7 @@ fun LoadingDashboardScreenPreview() {
 fun ErrorDashboardScreenPreview() {
     WeatherAppTheme {
         DashboardScreenContent(
+            onDayClick = {},
             isLoading = false,
             errorMessage = "Failed to load forecast"
         )

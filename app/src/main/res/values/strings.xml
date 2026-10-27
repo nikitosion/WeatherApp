@@ -3,7 +3,11 @@
     <string name="forecast_loading">Loading forecast…</string>
     <string name="forecast_loading_description">Getting the latest weather for you</string>
     <string name="forecast_error">Unable to load forecast</string>
-    <string name="forecast_empty">No forecast available</string>
-    <string name="forecast_empty_description">Refresh to check for a new forecast</string>
+    <string name="forecast_empty">Forecast hasn\'t been loaded</string>
+    <string name="forecast_empty_description">Refresh to try get it again</string>
     <string name="forecast_retry">Reload forecast</string>
+    <string name="forecast_invalid_date_title">Something went wrong</string>
+    <string name="forecast_invalid_date_description">Unable to open this forecast.</string>
+    <string name="forecast_hourly_title">Hourly forecast</string>
+    <string name="forecast_hourly_empty">Hourly forecast is unavailable for this day.</string>
 </resources>
