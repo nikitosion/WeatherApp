@@ -7,11 +7,11 @@ interface WeatherRepository {
     suspend fun getForecastForWeek(
         latitude: Double,
         longitude: Double
-    ): List<DayForecast>
+    ): List<DayForecast>?
 
     suspend fun getForecastForDay(
         latitude: Double,
         longitude: Double,
         date: LocalDate
-    ): DayForecast
+    ): DayForecast?
 }

@@ -138,7 +138,7 @@ fun DashboardScreenContent(
                     .padding(vertical = 12.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                for (dayForecast in weekForecast) {
+                for (dayForecast in weekForecast.drop(1)) {
                     WeekDayForecast(
                         modifier = Modifier,
                         dayForecast = dayForecast,
