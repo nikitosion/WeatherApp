@@ -5,6 +5,49 @@ import com.example.weather.domain.model.DayForecast
 import com.example.weather.domain.model.HourForecast
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.format.DateTimeParseException
+
+class InvalidForecastDataException(
+    message: String,
+    cause: Throwable? = null,
+) : Exception(message, cause)
+
+private fun <T : Any> requireForecastValue(
+    value: T?,
+): T {
+    return value ?: throw InvalidForecastDataException(
+        "Required forecast value is missing"
+    )
+}
+
+
+private fun requireParseDate(
+    value: String,
+): LocalDate = requireParsedValue(
+    value = value,
+    parser = LocalDate::parse,
+)
+
+private fun requireParseDateTime(
+    value: String,
+): LocalDateTime = requireParsedValue(
+    value = value,
+    parser = LocalDateTime::parse,
+)
+
+private fun <T> requireParsedValue(
+    value: String,
+    parser: (String) -> T,
+): T {
+    return try {
+        parser(value)
+    } catch (e: DateTimeParseException) {
+        throw InvalidForecastDataException(
+            message = "Failed to parse forecast value: $value",
+            cause = e,
+        )
+    }
+}
 
 object ForecastMapper {
 
@@ -13,10 +56,8 @@ object ForecastMapper {
         val hourly = dto.hourly
 
         val datedHours = hourly.time.indices.map { index ->
-            val dateTime = LocalDateTime.parse(hourly.time[index])
-            val temperature = requireNotNull(hourly.temperatures[index]) {
-                "Temperature data is missing for hour at index $index"
-            }
+            val dateTime = requireParseDateTime(hourly.time[index])
+            val temperature = requireForecastValue(hourly.temperatures[index])
 
             dateTime.toLocalDate() to HourForecast(
                 time = dateTime.toLocalTime(),
@@ -33,11 +74,9 @@ object ForecastMapper {
         )
 
         return daily.time.indices.map { index ->
-            val date = LocalDate.parse(daily.time[index])
+            val date = requireParseDate(daily.time[index])
 
-            val temperature = requireNotNull(daily.maxTemperatures[index]) {
-                "Temperature data is missing for day at index $index"
-            }
+            val temperature = requireForecastValue(daily.maxTemperatures[index])
 
             DayForecast(
                 date = date,

@@ -23,6 +23,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.weather.R
+import com.example.weather.domain.ForecastError
 import com.example.weather.domain.model.DayForecast
 import com.example.weather.ui.common.BigWeatherBlock
 import com.example.weather.ui.theme.WeatherAppTheme
@@ -51,7 +52,7 @@ fun DashboardScreen(
     DashboardScreenContent(
         isLoading = uiState.isLoading,
         weekForecast = uiState.weekForecast,
-        errorMessage = uiState.errorMessage,
+        error = uiState.error,
         onRetry = onRetry,
         onDayClick = onDayClick
     )
@@ -61,7 +62,7 @@ fun DashboardScreen(
 fun DashboardScreenContent(
     isLoading: Boolean = false,
     weekForecast: List<DayForecast>? = null,
-    errorMessage: String? = null,
+    error: ForecastError? = null,
     onRetry: () -> Unit = {},
     onDayClick: (LocalDate) -> Unit,
 ) {
@@ -103,7 +104,14 @@ fun DashboardScreenContent(
                 isLoading = true,
                 onRetry = onRetry
             )
-        } else if (errorMessage != null) {
+        } else if (error != null) {
+            val errorMessage = when (error) {
+                ForecastError.NETWORK -> stringResource(R.string.forecast_error_network)
+                ForecastError.SERVICE -> stringResource(R.string.forecast_error_service)
+                ForecastError.INVALID_DATA -> stringResource(R.string.forecast_error_invalid_data)
+                ForecastError.UNKNOWN -> stringResource(R.string.forecast_error_unknown)
+            }
+
             ForecastStatusCard(
                 title = stringResource(R.string.forecast_error),
                 message = errorMessage,
@@ -228,7 +236,7 @@ fun ErrorDashboardScreenPreview() {
         DashboardScreenContent(
             onDayClick = {},
             isLoading = false,
-            errorMessage = "Failed to load forecast"
+            error = ForecastError.NETWORK
         )
     }
 }

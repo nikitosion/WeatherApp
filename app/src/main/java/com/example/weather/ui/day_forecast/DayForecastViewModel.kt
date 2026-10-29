@@ -2,8 +2,8 @@ package com.example.weather.ui.day_forecast
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.weather.domain.ForecastResult
 import com.example.weather.domain.repository.WeatherRepository
-import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -24,25 +24,34 @@ class DayForecastViewModel(
     fun loadForecast() {
         if (_uiState.value.isLoading) return
 
-        _uiState.update { it.copy(isLoading = true, errorMessage = null) }
+        _uiState.update { it.copy(isLoading = true, error = null) }
+
         viewModelScope.launch {
-            try {
-                val forecast = weatherRepository.getForecastForDay(
-                    latitude = 55.7512,
-                    longitude = 37.6184,
-                    date = date
-                )
-                _uiState.update {
-                    it.copy(dayForecast = forecast, isLoading = false)
+            val forecast = weatherRepository.getForecastForDay(
+                latitude = 55.7512,
+                longitude = 37.6184,
+                date = date
+            )
+
+            when (forecast) {
+                is ForecastResult.Success -> {
+                    _uiState.update {
+                        it.copy(
+                            isLoading = false,
+                            dayForecast = forecast.data,
+                            error = null
+                        )
+                    }
                 }
-            } catch (e: CancellationException) {
-                throw e
-            } catch (e: Exception) {
-                _uiState.update {
-                    it.copy(
-                        isLoading = false,
-                        errorMessage = "Please try again in a moment."
-                    )
+
+                is ForecastResult.Failure -> {
+                    _uiState.update {
+                        it.copy(
+                            isLoading = false,
+                            dayForecast = null,
+                            error = forecast.error
+                        )
+                    }
                 }
             }
         }

@@ -33,6 +33,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.weather.R
+import com.example.weather.domain.ForecastError
 import com.example.weather.domain.model.DayForecast
 import com.example.weather.domain.model.HourForecast
 import com.example.weather.ui.common.BigWeatherBlock
@@ -84,10 +85,17 @@ fun DayForecastScreen(
                 message = stringResource(R.string.forecast_loading_description),
                 isLoading = true
             )
-        } else if (uiState.errorMessage != null) {
+        } else if (uiState.error != null) {
+            val errorMessage = when (uiState.error) {
+                ForecastError.NETWORK -> stringResource(R.string.forecast_error_network)
+                ForecastError.SERVICE -> stringResource(R.string.forecast_error_service)
+                ForecastError.INVALID_DATA -> stringResource(R.string.forecast_error_invalid_data)
+                ForecastError.UNKNOWN -> stringResource(R.string.forecast_error_unknown)
+            }
+
             DayForecastStatusScreen(
                 title = stringResource(R.string.forecast_invalid_date_title),
-                message = uiState.errorMessage,
+                message = errorMessage,
                 onRetry = onRetry
             )
         } else {
@@ -295,7 +303,7 @@ fun DayForecastScreenPreview() {
                         }
                     ),
                     isLoading = false,
-                    errorMessage = null
+                    error = null
                 )
             )
         }
@@ -335,7 +343,7 @@ private fun DayForecastEmptyScreenPreview() {
                 uiState = DayForecastUiState(
                     dayForecast = null,
                     isLoading = false,
-                    errorMessage = null
+                    error = null
                 )
             )
         }
@@ -351,7 +359,7 @@ private fun DayForecastErrorScreenPreview() {
                 date = LocalDate.of(2026, 10, 27),
                 uiState = DayForecastUiState(
                     isLoading = false,
-                    errorMessage = stringResource(R.string.forecast_error)
+                    error = ForecastError.UNKNOWN
                 )
             )
         }
