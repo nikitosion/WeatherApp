@@ -1,6 +1,8 @@
 package com.example.weather.di
 
+import com.example.weather.data.repository.LocationRepositoryImpl
 import com.example.weather.data.repository.WeatherRepositoryImpl
+import com.example.weather.domain.repository.LocationRepository
 import com.example.weather.domain.repository.WeatherRepository
 import com.example.weather.ui.dasboard.DashboardViewModel
 import com.example.weather.ui.day_forecast.DayForecastViewModel
@@ -16,16 +18,24 @@ val appModule = module {
         )
     }
 
+    single<LocationRepository> {
+        LocationRepositoryImpl(
+            appDatabase = get()
+        )
+    }
+
     viewModel {
         DashboardViewModel(
-            weatherRepository = get()
+            weatherRepository = get(),
+            locationRepository = get()
         )
     }
 
     viewModel { parameters ->
         DayForecastViewModel(
             date = parameters.get<LocalDate>(),
-            weatherRepository = get()
+            weatherRepository = get(),
+            locationRepository = get()
         )
     }
 }

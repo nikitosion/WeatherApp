@@ -15,4 +15,5 @@
     <string name="forecast_hourly_title">Hourly forecast</string>
     <string name="forecast_hourly_empty">Hourly forecast is unavailable for this day.</string>
     <string name="day_forecast_title">Day forecast</string>
+    <string name="no_location_selected">Choose location</string>
 </resources>

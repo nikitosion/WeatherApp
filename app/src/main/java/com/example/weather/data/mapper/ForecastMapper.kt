@@ -1,4 +1,4 @@
-package com.example.weather.data
+package com.example.weather.data.mapper
 
 import com.example.weather.data.remote.ForecastResponseDto
 import com.example.weather.domain.model.DayForecast

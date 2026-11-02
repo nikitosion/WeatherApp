@@ -61,7 +61,7 @@ fun DayForecastScreenRoute(
     DayForecastScreen(
         date = date,
         uiState = uiState,
-        onRetry = viewModel::loadForecast
+        onRetry = viewModel::retryLoadForecast
     )
 
 }

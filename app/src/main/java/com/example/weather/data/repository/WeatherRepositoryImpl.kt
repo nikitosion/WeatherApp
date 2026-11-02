@@ -1,7 +1,7 @@
 package com.example.weather.data.repository
 
-import com.example.weather.data.ForecastMapper
-import com.example.weather.data.InvalidForecastDataException
+import com.example.weather.data.mapper.ForecastMapper
+import com.example.weather.data.mapper.InvalidForecastDataException
 import com.example.weather.data.remote.WeatherApi
 import com.example.weather.domain.ForecastError
 import com.example.weather.domain.ForecastResult
