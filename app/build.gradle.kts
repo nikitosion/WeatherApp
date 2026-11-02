@@ -89,5 +89,9 @@ dependencies {
     // Room
     implementation(libs.room.runtime)
     ksp(libs.room.compiler)
+
+    // Location
+    implementation(libs.play.services.location)
+    implementation(libs.kotlinx.coroutines.play.services)
 }
 

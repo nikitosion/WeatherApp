@@ -16,6 +16,8 @@ retrofit = "3.0.0"
 okhttp = "5.5.1"
 room_version = "3.0.3"
 ksp_version = "2.3.10"
+location = "21.4.0"
+play-coroutines-location = "1.11.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -62,6 +64,10 @@ okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhtt
 # Room
 room-runtime = { group = "androidx.room3", name = "room3-runtime", version.ref = "room_version" }
 room-compiler = { group = "androidx.room3", name = "room3-compiler", version.ref = "room_version" }
+
+# Location
+play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "location" }
+kotlinx-coroutines-play-services = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-play-services", version.ref= "play-coroutines-location" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
