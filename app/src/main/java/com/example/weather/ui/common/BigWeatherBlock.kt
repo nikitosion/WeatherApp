@@ -10,10 +10,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.weather.domain.model.DayForecast
+import com.example.weather.domain.model.WeatherCondition
 import com.example.weather.ui.formatter.rememberForecastFormatter
+import com.example.weather.ui.formatter.toStringRes
 import com.example.weather.ui.theme.WeatherAppTheme
 import java.time.LocalDate
 
@@ -52,7 +55,7 @@ fun BigWeatherBlock(
         )
 
         Text(
-            text = dayForecast.weatherCondition,
+            text = stringResource(dayForecast.weatherCondition.toStringRes()),
             style = MaterialTheme.typography.titleLarge,
             color = MaterialTheme.colorScheme.onSurface,
         )
@@ -67,7 +70,7 @@ fun BigWeatherBlockPreview() {
             dayForecast = DayForecast(
                 date = LocalDate.now(),
                 temperature = 25.0,
-                weatherCondition = "Cloudy",
+                weatherCondition = WeatherCondition.OVERCAST,
             ),
             onDayClick = {}
         )

@@ -36,9 +36,11 @@ import com.example.weather.R
 import com.example.weather.domain.ForecastError
 import com.example.weather.domain.model.DayForecast
 import com.example.weather.domain.model.HourForecast
+import com.example.weather.domain.model.WeatherCondition
 import com.example.weather.ui.common.BigWeatherBlock
 import com.example.weather.ui.formatter.ForecastFormatter
 import com.example.weather.ui.formatter.rememberForecastFormatter
+import com.example.weather.ui.formatter.toStringRes
 import com.example.weather.ui.theme.WeatherAppTheme
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
@@ -185,7 +187,7 @@ private fun HourForecastRow(
                     color = MaterialTheme.colorScheme.onSurface
                 )
                 Text(
-                    text = forecast.weatherCondition,
+                    text = stringResource(forecast.weatherCondition.toStringRes()),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -293,12 +295,12 @@ fun DayForecastScreenPreview() {
                     dayForecast = DayForecast(
                         date = LocalDate.of(2026, 10, 27),
                         temperature = 15.0,
-                        weatherCondition = "Sunny",
+                        weatherCondition = WeatherCondition.CLEAR,
                         hourlyForecast = List(24) { hour ->
                             HourForecast(
                                 time = LocalTime.of(hour, 0),
                                 temperature = 15.0 - kotlin.math.abs(hour - 14) * 0.5,
-                                weatherCondition = if (hour in 8..18) "Sunny" else "Clear"
+                                weatherCondition = WeatherCondition.CLEAR
                             )
                         }
                     ),

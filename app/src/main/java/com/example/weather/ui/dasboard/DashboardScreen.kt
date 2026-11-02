@@ -28,6 +28,7 @@ import com.example.weather.domain.ForecastError
 import com.example.weather.domain.model.Coordinates
 import com.example.weather.domain.model.DayForecast
 import com.example.weather.domain.model.Location
+import com.example.weather.domain.model.WeatherCondition
 import com.example.weather.ui.common.BigWeatherBlock
 import com.example.weather.ui.theme.WeatherAppTheme
 import org.koin.androidx.compose.koinViewModel
@@ -179,37 +180,37 @@ fun DashboardScreenPreview() {
         DayForecast(
             date = LocalDate.now().plusDays(1),
             temperature = 10.0,
-            weatherCondition = "Sunny"
+            weatherCondition = WeatherCondition.CLEAR
         ),
         DayForecast(
             date = LocalDate.now().plusDays(2),
             temperature = 12.0,
-            weatherCondition = "Cloudy"
+            weatherCondition = WeatherCondition.OVERCAST
         ),
         DayForecast(
             date = LocalDate.now().plusDays(3),
             temperature = 8.0,
-            weatherCondition = "Rainy"
+            weatherCondition = WeatherCondition.RAIN
         ),
         DayForecast(
             date = LocalDate.now().plusDays(4),
             temperature = 9.0,
-            weatherCondition = "Windy"
+            weatherCondition = WeatherCondition.PARTLY_CLOUDY
         ),
         DayForecast(
             date = LocalDate.now().plusDays(5),
             temperature = 11.0,
-            weatherCondition = "Snowy"
+            weatherCondition = WeatherCondition.SNOW
         ),
         DayForecast(
             date = LocalDate.now().plusDays(6),
             temperature = 7.0,
-            weatherCondition = "Foggy"
+            weatherCondition = WeatherCondition.FOG
         ),
         DayForecast(
             date = LocalDate.now().plusDays(7),
             temperature = 6.0,
-            weatherCondition = "Stormy"
+            weatherCondition = WeatherCondition.THUNDERSTORM
         )
     )
 

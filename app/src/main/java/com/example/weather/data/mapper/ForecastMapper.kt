@@ -3,6 +3,7 @@ package com.example.weather.data.mapper
 import com.example.weather.data.remote.ForecastResponseDto
 import com.example.weather.domain.model.DayForecast
 import com.example.weather.domain.model.HourForecast
+import com.example.weather.domain.model.WeatherCondition
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeParseException
@@ -91,22 +92,22 @@ object ForecastMapper {
         }.sortedBy { it.date }
     }
 
-    private fun weatherCodeToCondition(code: Int?): String =
+    private fun weatherCodeToCondition(code: Int?): WeatherCondition =
         when (code) {
-            0 -> "Clear"
-            1 -> "Mainly clear"
-            2 -> "Partly cloudy"
-            3 -> "Overcast"
-            45, 48 -> "Fog"
-            51, 53, 55 -> "Drizzle"
-            56, 57 -> "Freezing drizzle"
-            61, 63, 65 -> "Rain"
-            66, 67 -> "Freezing rain"
-            71, 73, 75, 77 -> "Snow"
-            80, 81, 82 -> "Rain showers"
-            85, 86 -> "Snow showers"
-            95, 97 -> "Thunderstorm"
-            96, 99 -> "Thunderstorm with hail"
-            else -> "Unknown"
+            0 -> WeatherCondition.CLEAR
+            1 -> WeatherCondition.MAINLY_CLEAR
+            2 -> WeatherCondition.PARTLY_CLOUDY
+            3 -> WeatherCondition.OVERCAST
+            45, 48 -> WeatherCondition.FOG
+            51, 53, 55 -> WeatherCondition.DRIZZLE
+            56, 57 -> WeatherCondition.FREEZING_DRIZZLE
+            61, 63, 65 -> WeatherCondition.RAIN
+            66, 67 -> WeatherCondition.FREEZING_RAIN
+            71, 73, 75, 77 -> WeatherCondition.SNOW
+            80, 81, 82 -> WeatherCondition.RAIN_SHOWERS
+            85, 86 -> WeatherCondition.SNOW_SHOWERS
+            95, 97 -> WeatherCondition.THUNDERSTORM
+            96, 99 -> WeatherCondition.THUNDERSTORM_WITH_HAIL
+            else -> WeatherCondition.UNKNOWN
         }
 }

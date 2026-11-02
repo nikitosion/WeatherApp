@@ -20,6 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.weather.R
 import com.example.weather.domain.model.DayForecast
+import com.example.weather.domain.model.WeatherCondition
 import com.example.weather.ui.formatter.rememberForecastFormatter
 import com.example.weather.ui.theme.WeatherAppTheme
 import java.time.LocalDate
@@ -81,7 +82,7 @@ fun WeekDayForecastPreview() {
             dayForecast = DayForecast(
                 date = LocalDate.now(),
                 temperature = -5.5,
-                weatherCondition = "Cloudy"
+                weatherCondition = WeatherCondition.OVERCAST
             ),
             onDayClick = {}
         )
