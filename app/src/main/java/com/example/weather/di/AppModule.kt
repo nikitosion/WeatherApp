@@ -1,11 +1,15 @@
 package com.example.weather.di
 
+import com.example.weather.data.local.DeviceLocationSource
 import com.example.weather.data.repository.LocationRepositoryImpl
 import com.example.weather.data.repository.WeatherRepositoryImpl
 import com.example.weather.domain.repository.LocationRepository
 import com.example.weather.domain.repository.WeatherRepository
+import com.example.weather.ui.choose_location.ChooseLocationViewModel
 import com.example.weather.ui.dasboard.DashboardViewModel
 import com.example.weather.ui.day_forecast.DayForecastViewModel
+import com.google.android.gms.location.LocationServices
+import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 import java.time.LocalDate
@@ -20,13 +24,29 @@ val appModule = module {
 
     single<LocationRepository> {
         LocationRepositoryImpl(
-            appDatabase = get()
+            appDatabase = get(),
+            deviceLocationSource = get()
+        )
+    }
+
+    single {
+        DeviceLocationSource(
+            context = androidContext(),
+            locationClient = LocationServices.getFusedLocationProviderClient(
+                androidContext()
+            )
         )
     }
 
     viewModel {
         DashboardViewModel(
             weatherRepository = get(),
+            locationRepository = get()
+        )
+    }
+
+    viewModel {
+        ChooseLocationViewModel(
             locationRepository = get()
         )
     }

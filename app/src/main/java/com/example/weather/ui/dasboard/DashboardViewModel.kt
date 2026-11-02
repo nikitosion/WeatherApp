@@ -7,7 +7,8 @@ import com.example.weather.domain.repository.LocationRepository
 import com.example.weather.domain.repository.WeatherRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -21,31 +22,24 @@ class DashboardViewModel(
 
     init {
         viewModelScope.launch {
-            _uiState.update { it.copy(isLoading = true, error = null) }
 
-            val location = locationRepository.observeSelectedLocation().first()
+            locationRepository.observeSelectedLocation()
+                .distinctUntilChanged()
+                .collectLatest { location ->
+                    _uiState.update {
+                        it.copy(
+                            location = location
+                        )
+                    }
 
-            if (location == null) {
-                _uiState.update {
-                    it.copy(
-                        isLoading = false,
-                        location = null
-                    )
+                    if (location != null) {
+                        loadForecastForWeek(
+                            latitude = location.coordinates.latitude,
+                            longitude = location.coordinates.longitude
+                        )
+                    }
+
                 }
-                return@launch
-            }
-
-            _uiState.update {
-                it.copy(
-                    isLoading = false,
-                    location = location
-                )
-            }
-
-            loadForecastForWeek(
-                latitude = location.coordinates.latitude,
-                longitude = location.coordinates.longitude
-            )
         }
     }
 

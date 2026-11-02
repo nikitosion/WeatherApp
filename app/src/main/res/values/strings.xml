@@ -16,4 +16,19 @@
     <string name="forecast_hourly_empty">Hourly forecast is unavailable for this day.</string>
     <string name="day_forecast_title">Day forecast</string>
     <string name="no_location_selected">Choose location</string>
+    <string name="location_screen_title">Location</string>
+    <string name="location_screen_description">Get the forecast for where you are.</string>
+    <string name="location_permission_title">Find your local weather</string>
+    <string name="location_permission_description">Allow precise location access to find your city and show the forecast for your area.</string>
+    <string name="location_ready_title">Find your location</string>
+    <string name="location_ready_description">Use your current location to find your city and get the local forecast.</string>
+    <string name="location_selected_label">Selected location</string>
+    <string name="location_current_position">Current location</string>
+    <string name="location_update_description">Somewhere new? Update your location to get the forecast for where you are now.</string>
+    <string name="location_loading_title">Finding your location…</string>
+    <string name="location_loading_description">Getting your current location and finding your city.</string>
+    <string name="location_allow_access">Allow location access</string>
+    <string name="location_detect">Find my location</string>
+    <string name="location_update">Update location</string>
+    <string name="location_retry">Try again</string>
 </resources>

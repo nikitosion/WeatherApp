@@ -7,6 +7,8 @@ interface LocationRepository {
 
     fun observeSelectedLocation(): Flow<Location?>
 
+    suspend fun detectLocation(): Location
+
     suspend fun save(location: Location)
 
     suspend fun clear()

@@ -5,6 +5,7 @@ import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.weather.ui.choose_location.ChooseLocationScreenRoute
 import com.example.weather.ui.dasboard.DashboardScreenRoute
 import com.example.weather.ui.day_forecast.DayForecastScreenRoute
 import java.time.LocalDate
@@ -12,6 +13,7 @@ import java.time.LocalDate
 sealed class Screen(val route: String) {
     object Dashboard : Screen("dashboard")
     object DayForecast : Screen("day/{date}")
+    object ChooseLocation : Screen("choose_location")
 }
 
 @Composable
@@ -30,6 +32,9 @@ fun NavGraph(navController: NavHostController) {
                             date.toString()
                         )
                     )
+                },
+                onLocationClick = {
+                    navController.navigate(Screen.ChooseLocation.route)
                 }
             )
         }
@@ -48,6 +53,10 @@ fun NavGraph(navController: NavHostController) {
             }
 
             DayForecastScreenRoute(date)
+        }
+
+        composable(Screen.ChooseLocation.route) {
+            ChooseLocationScreenRoute()
         }
     }
 }

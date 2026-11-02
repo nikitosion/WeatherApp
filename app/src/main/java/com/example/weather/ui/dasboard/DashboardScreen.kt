@@ -1,5 +1,6 @@
 package com.example.weather.ui.dasboard
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -35,13 +36,15 @@ import java.time.LocalDate
 @Composable
 fun DashboardScreenRoute(
     viewModel: DashboardViewModel = koinViewModel(),
-    onDayClick: (LocalDate) -> Unit
+    onDayClick: (LocalDate) -> Unit,
+    onLocationClick: () -> Unit
 ) {
     val uiState = viewModel.uiState.collectAsState().value
     DashboardScreen(
         uiState = uiState,
         onRetry = { viewModel.retryLoadForecast() },
-        onDayClick = onDayClick
+        onDayClick = onDayClick,
+        onLocationClick = onLocationClick
     )
 }
 
@@ -49,7 +52,8 @@ fun DashboardScreenRoute(
 fun DashboardScreen(
     uiState: DashboardUiState,
     onRetry: () -> Unit,
-    onDayClick: (LocalDate) -> Unit
+    onDayClick: (LocalDate) -> Unit,
+    onLocationClick: () -> Unit
 ) {
     DashboardScreenContent(
         isLoading = uiState.isLoading,
@@ -57,7 +61,8 @@ fun DashboardScreen(
         location = uiState.location,
         error = uiState.error,
         onRetry = onRetry,
-        onDayClick = onDayClick
+        onDayClick = onDayClick,
+        onLocationClick = onLocationClick
     )
 }
 
@@ -69,6 +74,7 @@ fun DashboardScreenContent(
     error: ForecastError? = null,
     onRetry: () -> Unit = {},
     onDayClick: (LocalDate) -> Unit,
+    onLocationClick: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -77,7 +83,8 @@ fun DashboardScreenContent(
             .padding(horizontal = 16.dp, vertical = 24.dp)
     ) {
         Row(
-            modifier = Modifier,
+            modifier = Modifier
+                .clickable { onLocationClick() },
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -92,7 +99,7 @@ fun DashboardScreenContent(
                     contentColor = MaterialTheme.colorScheme.onPrimary,
                     containerColor = MaterialTheme.colorScheme.primary
                 ),
-                onClick = { /* Handle click */ }
+                onClick = { onLocationClick() }
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.location_on_24),
@@ -214,7 +221,8 @@ fun DashboardScreenPreview() {
                 detectedTimeMillis = System.currentTimeMillis()
             ),
             weekForecast = weekForecast,
-            onDayClick = {}
+            onDayClick = {},
+            onLocationClick = {}
         )
     }
 }
@@ -230,7 +238,8 @@ fun NullDashboardScreenPreview() {
                 detectedTimeMillis = System.currentTimeMillis()
             ),
             onDayClick = {},
-            weekForecast = null
+            weekForecast = null,
+            onLocationClick = {}
         )
     }
 }
@@ -246,7 +255,8 @@ fun LoadingDashboardScreenPreview() {
                 detectedTimeMillis = System.currentTimeMillis()
             ),
             onDayClick = {},
-            isLoading = true
+            isLoading = true,
+            onLocationClick = {}
         )
     }
 }
@@ -263,7 +273,8 @@ fun ErrorDashboardScreenPreview() {
             ),
             onDayClick = {},
             isLoading = false,
-            error = ForecastError.NETWORK
+            error = ForecastError.NETWORK,
+            onLocationClick = {}
         )
     }
 }
@@ -276,7 +287,8 @@ fun NoLocationDashboardScreenPreview() {
             location = null,
             onDayClick = {},
             isLoading = false,
-            error = null
+            error = null,
+            onLocationClick = {}
         )
     }
 }
