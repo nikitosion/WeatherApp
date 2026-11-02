@@ -103,7 +103,7 @@ fun DashboardScreenContent(
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.location_on_24),
-                    contentDescription = "Dropdown Icon"
+                    contentDescription = stringResource(R.string.location_choose)
                 )
             }
         }
@@ -147,7 +147,7 @@ fun DashboardScreenContent(
 
                 Text(
                     modifier = Modifier.padding(top = 16.dp),
-                    text = "Next days",
+                    text = stringResource(R.string.forecast_next_days),
                     style = MaterialTheme.typography.headlineSmall,
                     color = MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.Normal

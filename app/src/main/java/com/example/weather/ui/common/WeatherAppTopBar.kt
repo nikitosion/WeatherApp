@@ -9,6 +9,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import com.example.weather.R
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -23,7 +24,7 @@ fun WeatherAppTopAppBar(
             IconButton(onClick = onBackClick) {
                 Icon(
                     painter = painterResource(id = R.drawable.arrow_back_ios_24),
-                    contentDescription = "Back button"
+                    contentDescription = stringResource(R.string.navigate_back)
                 )
             }
         },
