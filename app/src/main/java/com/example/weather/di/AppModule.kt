@@ -1,5 +1,7 @@
 package com.example.weather.di
 
+import com.example.weather.data.local.AndroidCityGeocoder
+import com.example.weather.data.local.CityGeocoder
 import com.example.weather.data.local.DeviceLocationSource
 import com.example.weather.data.repository.LocationRepositoryImpl
 import com.example.weather.data.repository.WeatherRepositoryImpl
@@ -29,12 +31,17 @@ val appModule = module {
         )
     }
 
+    single<CityGeocoder> {
+        AndroidCityGeocoder(context = androidContext())
+    }
+
     single {
         DeviceLocationSource(
             context = androidContext(),
             locationClient = LocationServices.getFusedLocationProviderClient(
                 androidContext()
-            )
+            ),
+            cityGeocoder = get()
         )
     }
 
