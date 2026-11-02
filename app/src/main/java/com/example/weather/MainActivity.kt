@@ -39,10 +39,18 @@ fun WeatherApp() {
         Scaffold(
             modifier = Modifier.fillMaxSize(),
             topBar = {
-                if (currentScreen == Screen.DayForecast.route) {
+                val titleRes = when (currentScreen) {
+                    Screen.DayForecast.route -> R.string.day_forecast_title
+                    Screen.ChooseLocation.route -> R.string.location_screen_title
+                    else -> null
+                }
+
+                if (titleRes != null) {
                     WeatherAppTopAppBar(
-                        title = stringResource(R.string.day_forecast_title),
-                        onBackClick = { navController.navigateUp() }
+                        title = stringResource(titleRes),
+                        onBackClick = {
+                            navController.navigateUp()
+                        }
                     )
                 }
             }) { innerPadding ->
