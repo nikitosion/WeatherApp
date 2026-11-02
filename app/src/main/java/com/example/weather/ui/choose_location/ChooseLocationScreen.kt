@@ -190,7 +190,13 @@ fun ChooseLocationScreen(
 
         Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
             if (!uiState.isLoading && uiState.error != null) {
-                LocationErrorMessage(message = uiState.error)
+                val message = when (uiState.error) {
+                    ChooseLocationError.PRECISE_PERMISSION_REQUIRED ->
+                        stringResource(R.string.location_error_precise_permission_required)
+                    ChooseLocationError.LOCATION_UNAVAILABLE ->
+                        stringResource(R.string.location_error_unavailable)
+                }
+                LocationErrorMessage(message = message)
             }
 
             val permissionLauncher = rememberLauncherForActivityResult(
@@ -345,7 +351,7 @@ private fun ErrorChooseLocationScreenPreview() {
     ChooseLocationPreview(
         ChooseLocationUiState(
             hasPreciseLocationPermission = true,
-            error = "Unable to find your location. Check that location services are on and try again."
+            error = ChooseLocationError.LOCATION_UNAVAILABLE
         )
     )
 }
@@ -355,7 +361,7 @@ private fun ErrorChooseLocationScreenPreview() {
 private fun PermissionDeniedChooseLocationScreenPreview() {
     ChooseLocationPreview(
         ChooseLocationUiState(
-            error = "Location access is needed to find your city. You can allow access and try again."
+            error = ChooseLocationError.PRECISE_PERMISSION_REQUIRED
         )
     )
 }

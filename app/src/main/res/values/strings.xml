@@ -31,4 +31,6 @@
     <string name="location_detect">Find my location</string>
     <string name="location_update">Update location</string>
     <string name="location_retry">Try again</string>
+    <string name="location_error_precise_permission_required">Allow precise location access to find your current city.</string>
+    <string name="location_error_unavailable">Unable to find your location. Check that location services are on and try again.</string>
 </resources>

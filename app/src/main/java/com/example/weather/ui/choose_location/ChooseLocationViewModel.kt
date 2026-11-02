@@ -50,11 +50,11 @@ class ChooseLocationViewModel(
                 _uiState.update { it.copy(isLoading = false, location = location) }
             } catch (_: SecurityException) {
                 onPermissionDenied()
-            } catch (exception: IOException) {
+            } catch (_: IOException) {
                 _uiState.update {
                     it.copy(
                         isLoading = false,
-                        error = exception.message ?: "Unable to determine your location"
+                        error = ChooseLocationError.LOCATION_UNAVAILABLE
                     )
                 }
             }
@@ -64,7 +64,7 @@ class ChooseLocationViewModel(
     fun onPermissionDenied() {
         _uiState.value = _uiState.value.copy(
             isLoading = false,
-            error = "Allow precise location access to find your current city.",
+            error = ChooseLocationError.PRECISE_PERMISSION_REQUIRED,
             hasPreciseLocationPermission = false
         )
     }
